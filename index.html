@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='UTF-8'>
+<title>Test Node application - TimeOnSiteTracker</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript">
+//http://localhost:3000/static/index.html
+
+
+var Tos;
+(function(d, s, id, file) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s);
+    js.id = id;
+    js.onload = function() {
+
+        var config = {
+            trackBy: 'seconds',
+            trackHistoryChange: true,
+            developerMode: true,
+            callback: function(data) {
+        console.log(data);
+
+        // give your endpoint URL/ server-side URL that is going to handle your TOS data which is of POST method. Eg. PHP, nodejs or python URL which saves this data to your DB
+
+        var endPointUrl = 'http://localhost/test/send.php';
+      const response = fetch(endPointUrl, {
+    method: 'POST',
+    body: JSON.stringify(data),
+    keepalive: true
+  });
+  console.log(response);
+
+
+
+    }
+
+
+        };
+        if(TimeOnSiteTracker) {
+            Tos = new TimeOnSiteTracker(config);
+        }
+    };
+
+
+
+    js.src = file;fjs.parentNode.insertBefore(js, fjs);
+} (document, 'script', 'TimeOnSiteTracker', 'timeonsitetracker.min.js'));
+
+
+
+</script>
+</head>
+
+<body onbeforeunload=" return 'Are you really want to perform the action?'">
+    <h1>Page for time tracker</h1>
+    <br/>
+</body>
+
+</html>
